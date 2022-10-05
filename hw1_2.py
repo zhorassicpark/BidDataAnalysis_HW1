@@ -3,7 +3,7 @@ import re
 import sys
 # import time
 # start_time = time.time()
-#time library was used to measure the ellapsed time
+# time library was used to measure the ellapsed time
 
 
 basketList = [] # the list that contains baskets
@@ -47,10 +47,10 @@ print(n)
 
 
 pairTriangleList = []       # the list that works as a data structure for triangular method
+for i in range(0, n-1): # initialize the triangle with count 0
+    pairTriangleList.append([0 for i in range(n - i - 1)])
 freqPairs = []              # the list that saves frequent pairs
 
-
-pairTriangleList = [0 for i in range(int((n*(n-1))/2))]
 
 #iterating all the baskets, count the support for all frequent pair candidates
 for basket in basketList:
@@ -74,14 +74,12 @@ for basket in basketList:
             #add 1 to the count of the pair
             x = min(i,j)
             y = max(i,j)
-            index = int(((x)*(2*n-x-1)/2) + y - x - 1)
-            pairTriangleList[index] += 1
+            pairTriangleList[x][y-x-1] += 1
             
 #iterate over the frequentPair list, and filter the pairs with counts bigger than threshold
 for i in range(len(freqItems)):
     for j in range(i+1, len(freqItems)):
-        index = int(((i)*(2*n-i-1)/2) + j - i - 1)
-        value = pairTriangleList[index]
+        value = pairTriangleList[i][j-i-1]
         if value >= 200:
             freqPairs.append(((i,j), value))
 
