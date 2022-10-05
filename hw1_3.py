@@ -4,7 +4,7 @@ import sys
 import numpy as np
 # import time
 # start_time = time.time()
-#time library was used to measure the ellapsed time
+# time library was used to measure the ellapsed time
 
 articleList = []    # a list that contains every articles
 rows = []   #a list that contains every shingle that occur in articles
@@ -33,11 +33,10 @@ while True:
     shingleList = []
     for i in range(len(temp[1])-2):
         shingle = temp[1][i:i+3]
-        if shingle not in rows:         #preventing duplicate shingle over all articles
-            rows.append(shingle)
-        if shingle not in shingleList:  #preventing duplicate shingle in an article
-            shingleList.append(shingle)
-    temp[1] = shingleList
+        rows.append(shingle)
+        shingleList.append(shingle)
+    #preventing duplicate shingle in an article
+    temp[1] = list(set(shingleList))
 
     #now, temp looks like [articleID, [list of shingles it contains]]
 
@@ -45,6 +44,8 @@ while True:
 
 f.close()
 
+#preventing duplicate shingle over all articles
+rows = list(set(rows))
 
 constN = len(rows)# denotes n in our homework guideline
 
@@ -80,6 +81,8 @@ for i in range(constN):
     for j in range(hashNum):
         subMat[i][j] = (i*randMat[j][0]+randMat[j][1])%constC
 
+
+
 # a 120 * (num of articles) matrix to save the signatures of each articles
 signatures = np.ones((hashNum, len(articleList))) * (constN + 1)
 
@@ -97,6 +100,10 @@ for i in range(len(articleList)):
             for k in range(hashNum):
                 #compare the pre-existing value in the signature and the the value and leave the min value
                 signatures[k][i] = min(signatures[k][i], subMat[j][k])
+
+
+
+
 
 #a list that stores the candidate pairs filtered by LSH
 simPairCands = []
@@ -134,6 +141,9 @@ for i in range(constB):
                     if pair not in simPairCands:
                         simPairCands.append(pair)
 
+
+
+
 #returns the intersection between two lists
 def intersection(li1, li2):
     li3 = [value for value in li1 if value in li2]
@@ -154,4 +164,4 @@ for pairCand in simPairCands:
         print(f"{articleList[pairCand[0]][0]}\t{articleList[pairCand[1]][0]}")
 
 # print(f'\033[94m total ellapsed time : {time.time() - start_time} seconds \033[0m')
-#time library was used to measure the ellapsed time
+# time library was used to measure the ellapsed time

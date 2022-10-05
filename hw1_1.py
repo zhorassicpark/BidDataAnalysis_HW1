@@ -57,7 +57,7 @@ sortedRecommendations = recommendations.sortBy(lambda l: (-l[1], l[0][0], l[0][1
 
 result = sortedRecommendations.collect()
 
-for i in range(10):
+for i in range(min(len(result), 10)):
     print(f"{result[i][0][0]}\t{result[i][0][1]}\t{result[i][1]}")
 sc.stop()
 
